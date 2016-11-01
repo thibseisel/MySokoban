@@ -23,29 +23,33 @@ public interface ICommand {
 	 * Annule l'exécution de la commande. Cela consiste à effectuer le même
 	 * travail que {@link #execute()}, mais dans l'autre sens.
 	 * 
-	 * @throws UnsupportedOperationException
-	 *             si la commande ne peut pas être annulée.
+	 * @throws UnsupportedOperationException si la commande ne peut pas être
+	 *             annulée.
 	 */
 	void undo() throws UnsupportedOperationException;
 
 	/**
 	 * Classe de Factory permettant de construire des commandes.
+	 * 
 	 * @author Thib
 	 */
 	static class Factory {
-		
+
 		private GameCLI game;
 		private String name;
 		private String[] params;
-		
+
 		public Factory(GameCLI game) {
 			this.game = game;
 		}
-		
+
 		public Factory parseLine(String line) {
+			if (line == null || line.isEmpty()) {
+				return this;
+			}
 			StringTokenizer tokenizer = new StringTokenizer(line);
 			name = tokenizer.nextToken().toLowerCase(Locale.US);
-			
+
 			params = new String[tokenizer.countTokens()];
 			int paramPos = 0;
 			while (tokenizer.hasMoreTokens()) {
@@ -54,8 +58,10 @@ public interface ICommand {
 			}
 			return this;
 		}
-		
+
 		public ICommand create() {
+			if (name == null)
+				return new RepeatCommand(game);
 			switch (name) {
 			case "help":
 				return new HelpCommand(game);

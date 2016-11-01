@@ -9,9 +9,11 @@ import fr.nihilus.sokoban.cli.ICommand.Factory;
 import fr.nihilus.sokoban.model.Labyrinth;
 import fr.nihilus.sokoban.model.Labyrinth.Builder;
 import fr.nihilus.sokoban.model.TargetBlock;
+import fr.nihilus.sokoban.model.WallBlock;
 
 /**
  * Une partie de Sokoban qui se joue en lignes de commande.
+ * 
  * @author Thib
  */
 public class GameCLI implements IGame {
@@ -27,9 +29,10 @@ public class GameCLI implements IGame {
 	}
 
 	public GameCLI() {
-		Labyrinth.Builder builder = new Builder(5, 5);
-		labyrinth = builder.setSquare(1, 2, new TargetBlock()).setPlayerInitialPosition(3, 2)
-				.addBoxInitialPosition(2, 2).create();
+		Labyrinth.Builder builder = new Builder(8, 8);
+		labyrinth = builder.setSquare(1, 2, new TargetBlock()).setSquare(2, 4, new TargetBlock())
+				.setSquare(4, 5, new WallBlock()).setPlayerInitialPosition(3, 2).addBoxInitialPosition(2, 2)
+				.addBoxInitialPosition(5, 5).create();
 		commandHistory = new LinkedList<>();
 		cmdFactory = new Factory(this);
 	}
@@ -45,8 +48,8 @@ public class GameCLI implements IGame {
 				String line = sc.nextLine();
 				processCmd(line);
 			} while (isRunning);
-			
-			if(isWon) {
+
+			if (isWon) {
 				System.out.println("Félicications, vous avez gagné !");
 				System.out.println("Appuyer sur une touche pour quitter...");
 				sc.nextLine();
@@ -54,10 +57,10 @@ public class GameCLI implements IGame {
 			System.out.println("Bye !");
 		}
 	}
-	
+
 	private void processCmd(String line) {
 		ICommand cmd = cmdFactory.parseLine(line).create();
-		if(cmd != null && cmd.execute()) {
+		if (cmd != null && cmd.execute()) {
 			commandHistory.addFirst(cmd);
 		}
 	}
@@ -71,12 +74,12 @@ public class GameCLI implements IGame {
 		isWon = hasWon;
 		isRunning = false;
 	}
-	
+
 	@Override
 	public Labyrinth getLabyrinth() {
 		return labyrinth;
 	}
-	
+
 	@Override
 	public void printMessage(String msg) {
 		System.out.println(msg);

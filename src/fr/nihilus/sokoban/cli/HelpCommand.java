@@ -33,5 +33,10 @@ public class HelpCommand implements ICommand {
 	public void undo() throws UnsupportedOperationException {
 		throw new UnsupportedOperationException("Command 'help' cannot be undone.");
 	}
+	
+	@Override
+	public String toString() {
+		return "help";
+	}
 
 }

@@ -15,14 +15,14 @@ public class MoveCommand implements ICommand {
 	public MoveCommand(IGame game, String[] params) {
 		this.game = game;
 		if(params != null && params.length > 0) {
-			this.direction = Direction.parse(params[0]);			
+			this.direction = Direction.parse(params[0]);		
 		}
 	}
 	
 	@Override
 	public boolean execute() {
 		if(direction == null) {
-			game.printMessage("Usage : move [left | top | right | bottom]");
+			game.printMessage("Usage : move [left | up | right | down]");
 			return false;
 		}
 		Labyrinth laby = game.getLabyrinth();
@@ -56,6 +56,11 @@ public class MoveCommand implements ICommand {
 			laby.moveOnto(from, oldPlayerPos);	
 		}
 		game.refreshDisplay();
+	}
+	
+	@Override
+	public String toString() {
+		return "move " + direction.toString().toLowerCase();
 	}
 
 }

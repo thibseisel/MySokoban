@@ -3,7 +3,7 @@ package fr.nihilus.sokoban.model;
 import java.util.Locale;
 
 public enum Direction {
-	LEFT, TOP, RIGHT, BOTTOM;
+	LEFT, UP, RIGHT, DOWN;
 
 	/**
 	 * Traduit la chaine de caractère en tant que Direction.
@@ -32,11 +32,11 @@ public enum Direction {
 		switch (this) {
 		case LEFT:
 			return new int[] { coord[0] - steps, coord[1] };
-		case TOP:
+		case UP:
 			return new int[] { coord[0], coord[1] - steps };
 		case RIGHT:
 			return new int[] { coord[0] + steps, coord[1] };
-		case BOTTOM:
+		case DOWN:
 			return new int[] { coord[0], coord[1] + steps };
 		default:
 			return null;
@@ -50,12 +50,12 @@ public enum Direction {
 		switch (direction) {
 		case LEFT:
 			return RIGHT;
-		case TOP:
-			return BOTTOM;
+		case UP:
+			return DOWN;
 		case RIGHT:
 			return LEFT;
-		case BOTTOM:
-			return TOP;
+		case DOWN:
+			return UP;
 		default:
 			return null;
 		}
